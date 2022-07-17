@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'album.css' %}"/>
+{% endblock %}
+
+{% block title %}Album{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+                {% for game in object_list %}
+                    <div class="col-sm-3">
+                        <div class="container item">
+                            <img src="{{ game.boxart.url }}" class="image img-thumbnail img-fluid">
+                            <div class="middle">
+                                <div class="text">{{ game.name }}</div>
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}
