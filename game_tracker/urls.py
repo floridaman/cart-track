@@ -3,16 +3,14 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic.base import TemplateView
-from game_tracker.views import Register, index
-
-app_name = 'main'
+from gallery.views import Register
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('gallery/', include('gallery.urls')),
-    path('register/success/', TemplateView.as_view(template_name="registration/success.html"), name ='register-success'),
+    path('register/success/',TemplateView.as_view(template_name="registration/success.html"), name ='register-success'),
     path('register/', Register.as_view(), name='register'),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('gallery/', include('gallery.urls')),
+    path('', include('django.contrib.auth.urls')),
     path('', include('gallery.urls')),
     # url(r'^register/', views.UserFormView.as_view(), name='register'),
     # url(r'^login/', views.LoginView, name='login'),

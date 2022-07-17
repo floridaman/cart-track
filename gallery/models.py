@@ -1,5 +1,7 @@
 from django.db import models
+from django.conf import settings
 from django.utils.html import format_html
+
 
 class System(models.Model):
     name = models.CharField(max_length=200)
@@ -18,3 +20,10 @@ class Game(models.Model):
 
     def boxart_tag(self):
         return format_html('<img src="%s" width="150"/>' % self.boxart.url)
+
+class Collection(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    games = models.ManyToManyField(Game)

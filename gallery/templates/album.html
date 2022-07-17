@@ -14,10 +14,12 @@
                     <div class="col-sm-3">
                         <div class="container item">
                             <img src="{{ game.boxart.url }}" class="image img-thumbnail img-fluid">
-                            <div class="middle">
+                            <a href="{% url 'gallery:add' game.id %}">
+                                <i class="fa-solid fa-circle-plus fa-4x"></i>
+                            </a>
+                            <!-- <div class="middle">
                                 <div class="text">{{ game.name }}</div>
-
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 {% endfor %}
