@@ -1,8 +1,7 @@
-from django.conf.urls import url
+from django.urls import path
 from . import views
 
 app_name = 'gallery'
-
 urlpatterns = [
-    url(r'^(?P<system_name>[\w]+)/$', views.SystemView.as_view(), name='systemgallery'),
+    path('system/<str:system_name>', views.SystemView.as_view(), name='systemgallery')
 ]

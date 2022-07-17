@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.views.generic import View
-from django.views import generic
+from django.views.generic.edit import CreateView
+from django.contrib.auth.forms import UserCreationForm
 from .forms import UserForm
 
 def index(request):
     return render(request, 'base.html')
+
+# class Register(CreateView):
 
 class UserFormView(View):
     form_class = UserForm
@@ -37,9 +40,3 @@ class UserFormView(View):
                     return redirect('index')
 
         return render(request, self.template_name, {'form': form})
-
-
-class LoginView(View):
-    def get(self, request):
-
-    def post(self, request):
