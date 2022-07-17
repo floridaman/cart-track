@@ -14,9 +14,15 @@
                     <div class="col-sm-3">
                         <div class="container item">
                             <img src="{{ game.boxart.url }}" class="image img-thumbnail img-fluid">
-                            <a href="{% url 'gallery:add' game.id %}">
-                                <i class="fa-solid fa-circle-plus fa-4x"></i>
-                            </a>
+                            {% if type == "collection" %}
+                                <a href="{% url 'gallery:remove' game.id %}">
+                                    <i class="fa-solid fa-circle-minus fa-4x"></i>
+                                </a>
+                            {% else %}
+                                <a href="{% url 'gallery:add' game.id %}">
+                                    <i class="fa-solid fa-circle-plus fa-4x"></i>
+                                </a>
+                            {% endif %}
                             <!-- <div class="middle">
                                 <div class="text">{{ game.name }}</div>
                             </div> -->

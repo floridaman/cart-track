@@ -10,11 +10,28 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 
+class CollectionView(generic.ListView):
+    template_name = 'album.html'
+
+    def get_queryset(self):
+        user_collection = Collection.objects.filter(user=self.request.user.id).first().games.all()
+        return user_collection
+    
+    def get_context_data(self, **kwargs):
+        context = super(generic.ListView, self).get_context_data(**kwargs)
+        context['type'] = 'collection'
+        return context
+
 class SystemView(generic.ListView):
     template_name = 'album.html'
 
     def get_queryset(self):
-        return Game.objects.all()
+        if self.request.user.is_authenticated:
+            unowned_games = Game.objects.exclude(id__in=Collection.objects.filter(user=self.request.user.id).first().games.all())
+            # user_collection = Collection.objects.filter(user=self.request.user.id).first().games.all()
+            return unowned_games
+        else:
+            return Game.objects.all()
 
 class GameView(generic.DetailView):
     model = Game
@@ -24,9 +41,19 @@ class GameView(generic.DetailView):
 def add(request, game_id):
     user = request.user
     game = get_object_or_404(Game, pk=game_id)
-    collection = get_object_or_404(Collection, pk=user.id)
+    collection = get_object_or_404(Collection, user=user)
+    collection.games.add(game)
 
     return HttpResponseRedirect(reverse('gallery:defaultgallery'))
+
+@login_required(login_url=reverse_lazy('login'))
+def remove(request, game_id):
+    user = request.user
+    game = get_object_or_404(Game, pk=game_id)
+    collection = get_object_or_404(Collection, user=user)
+    collection.games.remove(game)
+
+    return HttpResponseRedirect(reverse('gallery:collection'))
 
 class Register(CreateView):
     template_name = 'registration/register.html'
